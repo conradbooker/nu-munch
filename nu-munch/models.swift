@@ -7,22 +7,45 @@
 
 import Foundation
 
-struct User: Hashable, Codable {
+struct User: Hashable, Codable, Identifiable {
+    let id: Int
     let name: String
     let email: String
     let profilePhoto: String
-    let currentDelivery: Order?
-    let currentOrder
-    let pastDeliv
+    
+    // order ids
+    let currentDelivery: Int
+    let currentOrder: Int
+    let pastDeliveries: [Int]
 }
 
-struct Order: Hashable, Codable {
-    let id: String
+struct Order: Hashable, Codable, Identifiable {
+    let id: Int
     let status: String
-    let items: [Item]
+    let foodItem: [FoodItem]
     let locationStart: String
     let locationEnd: String
-    let price: String
+    let price: Double
+    
+    // deliverer and orderer ids
     let deliverer: Int
     let orderer: Int
+}
+
+struct FoodItem: Hashable, Codable, Identifiable {
+    let id: Int
+    let name: String
+    let description: String
+    let contents: [String]
+    let eatery_id: Int
+    let price: Double
+    let photo: String
+}
+
+struct Eatery: Hashable, Codable, Identifiable {
+    let id: Int
+    let name: String
+    let description: String
+    let photo: String
+    let location: String
 }
