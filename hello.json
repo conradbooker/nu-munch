@@ -1,0 +1,36 @@
+{
+    "user": {
+        "name": "string",
+        "id": 0,
+        "email": "string",
+        "profilePhoto": "url",
+        "currentDelivery": "id of order",
+        "currentOrder": "id of order",
+        "pastDeliveries": ["ids of orders"],
+        "pastOrders": ["ids of orders"],
+        "balance": 0,
+        "cart": ["id of items"]
+    },
+    "order": {
+        "id": 0,
+        "orderer": "student id",
+        "deliverer": "student id",
+        "locationStart": "string",
+        "locationEnd": "string",
+        "price": 0
+    },
+    "eatery": {
+        "name": "string",
+        "description": "string",
+        "photo": "string",
+        "location": "string",
+        "items": ["string of items id"]
+    },
+    "item": {
+        "name": "string",
+        "description": "string",
+        "contents": ["string"],
+        "eatery_id": "string",
+        "photo": "string"
+    }
+}
