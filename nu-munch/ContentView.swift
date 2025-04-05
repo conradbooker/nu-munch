@@ -9,9 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @State private var view: String = "order"
+    
     var body: some View {
-        VStack {
-            Text("Hi")
+        NavigationStack {
+            VStack(alignment: .leading) {
+                // Custom Header
+                HeaderView(view: $view)
+
+                // Rest of the content
+                Spacer()
+            }
+            .navigationBarHidden(true) // Hide default nav bar
         }
     }
 }

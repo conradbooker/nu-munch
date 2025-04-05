@@ -7,12 +7,86 @@
 
 import SwiftUI
 
-struct Header: View {
+struct HeaderView: View {
+    
+    @Binding var view: String
+    
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                HStack(spacing: 8) {
+                    Button {
+                        view = "order"
+                        print(view)
+                    } label: {
+                        if view == "order" {
+                            Text("Order")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.black)
+                        } else {
+                            Text("Order")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.gray)
+                        }
+                    }
+
+                    ZStack(alignment: .topTrailing) {
+                        Button {
+                            view = "deliver"
+                            print(view)
+                        } label: {
+                            if view == "deliver" {
+                                Text("Deliver")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.black)
+                            } else {
+                                Text("Deliver")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.gray)
+                            }
+                        }
+
+                        // Notification Badge
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 16, height: 16)
+                            .overlay(
+                                Text("3")
+                                    .foregroundColor(.white)
+                                    .font(.caption2)
+                            )
+                            .offset(x: 16, y: -5)
+                    }
+                }
+
+                Spacer()
+
+                // Right Side (Profile icon)
+                Circle()
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 36, height: 36)
+                    .overlay(
+                        Image(systemName: "person.fill")
+                            .foregroundColor(.gray)
+                    )
+            }
+
+        }
+        .padding()
     }
 }
 
-#Preview {
-    Header()
+struct HeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        @State var view = "order"
+        
+        HeaderView(view: $view)
+            .previewLayout(.sizeThatFits)
+    }
 }

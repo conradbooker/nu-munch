@@ -48,4 +48,14 @@ struct Eatery: Hashable, Codable, Identifiable {
     let description: String
     let photo: String
     let location: String
+    let area: String
 }
+
+
+let defaultEateries: [Eatery] = [
+    Eatery(id: 0, name: "Eatery 1", description: "hello", photo: "", location: "42.06024, -87.67573", area: "North Area"),
+    Eatery(id: 1, name: "Tech Express", description: "hello", photo: "", location: "42.05806, -87.67584", area: "North Area"),
+    Eatery(id: 2, name: "Eatery 3", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
+    Eatery(id: 3, name: "Eatery 4", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
+    Eatery(id: 4, name: "Eatery 5", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
+]
