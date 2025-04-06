@@ -31,7 +31,7 @@ struct ItemRow: View {
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .frame(height: 80)
+                    .frame(maxHeight: 120)
                     .foregroundColor(.blue)
                     .shadow(radius: 4)
                 HStack {
@@ -41,6 +41,7 @@ struct ItemRow: View {
                             .foregroundColor(.black)
                         Text(foodItem?.description ?? "")
                             .foregroundColor(.black)
+                            .multilineTextAlignment(.leading)
                         
                     }
                     .padding(.leading, 12)

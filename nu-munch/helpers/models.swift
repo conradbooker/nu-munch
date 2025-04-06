@@ -16,6 +16,9 @@ struct User: Hashable, Codable, Identifiable {
     let currentDelivery: String
     let currentOrder: String
     let pastDeliveries: [String]
+    
+    let currentBalance: Int
+    let totalBalance: Int
 }
 
 struct Order: Hashable, Codable, Identifiable {
@@ -24,11 +27,17 @@ struct Order: Hashable, Codable, Identifiable {
     let foodItem_id: String
     let locationStart: String
     let locationEnd: String
+    
+    let locationStart_description: String
+    let locationEnd_description: String
+    
     let price: Double
     
     // deliverer and orderer ids
     let deliverer: String
     let orderer: String
+    
+    let expiration: Int // time stamp
 }
 
 struct FoodItem: Hashable, Codable, Identifiable {
@@ -80,7 +89,7 @@ let defaultEateries: [String: Eatery] = [
 ]
 
 let defaultFoodItems: [String: FoodItem] = [
-    "0": FoodItem(id: "0", name: "Quesadillia", description: "This is a description", options: ["Cheese", "Meat"], eatery_id: "0"),
+    "0": FoodItem(id: "0", name: "Quesadillia", description: "Includes a Pizza... Please specify toppings below, and please specify if you want a water/etc in the description.", options: ["Cheese", "Meat"], eatery_id: "0"),
     "1": FoodItem(id: "1", name: "Taco", description: "This is a description", options: ["Cheese", "Meat"], eatery_id: "0"),
     "2": FoodItem(id: "2", name: "Burrito", description: "This is a description", options: ["Cheese", "Meat", "Beans", "Water"], eatery_id: "0"),
 ]
@@ -89,3 +98,4 @@ let areas: [String] = ["North Area", "Norris", "South Area"]
 
 
 // class api key
+

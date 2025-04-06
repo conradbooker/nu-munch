@@ -13,7 +13,11 @@ struct ContentView: View {
     @State private var showCart: Bool = false
     @StateObject private var locationManager = LocationManager()
 
+    @AppStorage("email") var email = ""
+    @AppStorage("user_id") var user_id = ""
     
+    @State private var showProfile = false
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -25,14 +29,15 @@ struct ContentView: View {
                         .onAppear {
                             locationManager.checkLocationAuthorization()
                         }
+                        .padding(.top, 60)
 
                     if view == "order" {
                         OrderView()
                             .ignoresSafeArea()
+                            .environmentObject(locationManager)
                     } else {
-                        
+                        // You can add additional views here.
                     }
-                    // Rest of the content
                     Spacer()
                 }
                 VStack {
@@ -57,12 +62,15 @@ struct ContentView: View {
                     }
                 }
             }
+            .ignoresSafeArea()
             .navigationBarHidden(true) // Hide default nav bar
         }
-        .ignoresSafeArea()
         .sheet(isPresented: $showCart) {
             CartView(showCart: $showCart)
                 .environmentObject(locationManager)
+        }
+        .sheet(isPresented: $showProfile) {
+            ProfileView(showProfile: $showProfile)
         }
     }
 }
@@ -70,3 +78,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
