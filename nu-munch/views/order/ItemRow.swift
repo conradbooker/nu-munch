@@ -107,7 +107,7 @@ struct ItemRow: View {
                 HStack {
                     Spacer()
                     Button {
-                        // add to cart here and dismiss
+                        addToCart(foodItem: foodItem)
                         showItem = false
                     } label: {
                         ZStack {
@@ -127,6 +127,25 @@ struct ItemRow: View {
             .padding(.horizontal, 12)
         }
 
+    }
+
+    private func addToCart(foodItem: FoodItem?) {
+        guard let foodItem = foodItem else { return }
+
+        var cartItems = getCartItems()
+        cartItems.append(foodItem)
+
+        if let data = try? JSONEncoder().encode(cartItems) {
+            UserDefaults.standard.set(data, forKey: "cartItems")
+        }
+    }
+
+    private func getCartItems() -> [FoodItem] {
+        if let data = UserDefaults.standard.data(forKey: "cartItems"),
+           let cartItems = try? JSONDecoder().decode([FoodItem].self, from: data) {
+            return cartItems
+        }
+        return []
     }
 }
 

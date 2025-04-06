@@ -22,7 +22,7 @@ struct User: Hashable, Codable, Identifiable {
 struct Order: Hashable, Codable, Identifiable {
     let id: Int
     let status: String
-    let foodItem: [FoodItem]
+    let foodItem_id: Int
     let locationStart: String
     let locationEnd: String
     let price: Double
@@ -39,6 +39,28 @@ struct FoodItem: Hashable, Codable, Identifiable {
     let options: [String]
     let eatery_id: Int
     let photo: String
+}
+
+class FoodItemStorage {
+    private let key = "storedFoodItem"
+    
+    func save(foodItem: FoodItem) {
+        if let encoded = try? JSONEncoder().encode(foodItem) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
+    func load() -> FoodItem? {
+        if let savedData = UserDefaults.standard.data(forKey: key),
+           let decoded = try? JSONDecoder().decode(FoodItem.self, from: savedData) {
+            return decoded
+        }
+        return nil
+    }
+    
+    func delete() {
+        UserDefaults.standard.removeObject(forKey: key)
+    }
 }
 
 struct Eatery: Hashable, Codable, Identifiable {
