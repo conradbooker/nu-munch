@@ -9,7 +9,7 @@ struct CartView: View {
     
     @EnvironmentObject private var locationManager: LocationManager
     
-    func getEateryById(_ id: Int) -> String {
+    func getEateryById(_ id: String) -> String {
         if defaultEateries.keys.contains(String(id)) {
             return defaultEateries[String(id)]?.name ?? "Unknown Option!"
         }
@@ -170,7 +170,7 @@ struct CartView: View {
         .onAppear(perform: loadCartItems)
     }
     
-    private func getEateryLocationById(_ id: Int) -> String {
+    private func getEateryLocationById(_ id: String) -> String {
         return defaultEateries[String(id)]?.location ?? "0.0, 0.0"
     }
 

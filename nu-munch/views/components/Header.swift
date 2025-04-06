@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// API CALL ON APPEAR GET LENGTH OF ORDERS
+
 struct HeaderView: View {
     
     @Binding var view: String
