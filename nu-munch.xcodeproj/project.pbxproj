@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		40EC586A2DA2709B00995F09 /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 40EC58692DA2709B00995F09 /* Auth0 */; };
+		40EC586D2DA270BA00995F09 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 40EC586C2DA270BA00995F09 /* KeychainAccess */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		79D796F32DA1D93900C6F4C2 /* nu-munch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nu-munch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40EC586D2DA270BA00995F09 /* KeychainAccess in Frameworks */,
+				40EC586A2DA2709B00995F09 /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = "nu-munch";
 			packageProductDependencies = (
+				40EC58692DA2709B00995F09 /* Auth0 */,
+				40EC586C2DA270BA00995F09 /* KeychainAccess */,
 			);
 			productName = "nu-munch";
 			productReference = 79D796F32DA1D93900C6F4C2 /* nu-munch.app */;
@@ -107,6 +116,10 @@
 			);
 			mainGroup = 79D796EA2DA1D93900C6F4C2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				40EC58682DA2709B00995F09 /* XCRemoteSwiftPackageReference "Auth0.swift" */,
+				40EC586B2DA270BA00995F09 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79D796F42DA1D93900C6F4C2 /* Products */;
 			projectDirPath = "";
@@ -352,6 +365,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		40EC58682DA2709B00995F09 /* XCRemoteSwiftPackageReference "Auth0.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/Auth0.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+		40EC586B2DA270BA00995F09 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		40EC58692DA2709B00995F09 /* Auth0 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40EC58682DA2709B00995F09 /* XCRemoteSwiftPackageReference "Auth0.swift" */;
+			productName = Auth0;
+		};
+		40EC586C2DA270BA00995F09 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40EC586B2DA270BA00995F09 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 79D796EB2DA1D93900C6F4C2 /* Project object */;
 }

@@ -14,67 +14,67 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack{
-                Spacer()
-                    .onAppear {
-                        if let savedUsername = KeychainService.shared.load(key: "username"),
-                           let savedPassword = KeychainService.shared.load(key: "password") {
-                            username = savedUsername
-                            password = savedPassword
-                            loggedIn = true
-                        }
-                    }
-                if !loggedIn {
-                    //form fields
-                    VStack(spacing: 24) {
-                        InputView(text: $username,
-                                  title: "Email Address",
-                                  placeholder: "name@example.com")
-                        .autocapitalization(.none)
-                        
-                        InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 12)
-                    
-                    //sign in button
-                    
-                    Button {
-                        KeychainService.shared.save(key: "username", value: username)
-                        KeychainService.shared.save(key: "password", value: password)
-                    } label: {
-                        HStack {
-                            Text("SIGN IN")
-                                .fontWeight(.semibold)
-                            Image(systemName: "arrow.right")
-                        }
-                        .foregroundColor(.white)
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                    }
-                    .background(Color(.systemPurple))
-                    .cornerRadius(8)
-                    .padding(.top, 24)
-                    
-                    Spacer()
-                    
-                    //sign up button
-                    
-                    NavigationLink {
-                        RegistrationView()
-                            .navigationBarBackButtonHidden(true)
-                    } label: {
-                        HStack(spacing: 3) {
-                            Text("Don't have an account?")
-                            Text("Sign up")
-                                .fontWeight(.bold)
-                        }
-                        .font(.system(size:14))
-                    }
-
-                } else {
-                    ContentView()
-                }
+            VStack {
+                Image("munch_logo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 250)
                 
+                // Form fields
+                VStack(spacing: 24) {
+                    InputView(text: $email,
+                              title: "Email Address",
+                              placeholder: "name@example.com")
+                        .autocapitalization(.none)
+                    
+                    InputView(text: $password,
+                              title: "Password",
+                              placeholder: "Enter your password",
+                              isSecureField: true)
+                }
+                .padding(.horizontal)
+                .padding(.top, 12)
+                
+                // Sign in button using AuthManager for Auth0 login
+                Button {
+                    AuthManager.shared.login { result in
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let credentials):
+                                print("Logged in successfully with access token: \(credentials.accessToken)")
+                                // Optionally, update app state or navigate to the main content here.
+                            case .failure(let error):
+                                print("Failed to log in: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text("SIGN IN")
+                            .fontWeight(.semibold)
+                        Image(systemName: "arrow.right")
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                }
+                .background(Color(.systemPurple))
+                .cornerRadius(8)
+                .padding(.top, 24)
+                
+                Spacer()
+                
+                // Sign up button
+                NavigationLink {
+                    RegistrationView()
+                        .navigationBarBackButtonHidden(true)
+                } label: {
+                    HStack(spacing: 3) {
+                        Text("Don't have an account?")
+                        Text("Sign up")
+                            .fontWeight(.bold)
+                    }
+                    .font(.system(size: 14))
+                }
             }
         }
     }
@@ -85,3 +85,4 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
+

@@ -1,10 +1,3 @@
-//
-//  RegistrationView.swift
-//  nu-munch
-//
-//  Created by Daniel Wu on 4/5/25.
-//
-
 import SwiftUI
 
 struct RegistrationView: View {
@@ -12,68 +5,86 @@ struct RegistrationView: View {
     @State private var fullname = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    
     @Environment(\.dismiss) var dismiss
     
+    // Tracks whether we’re pushing to OrderView
+    @State private var showOrderView = false
+    
     var body: some View {
-        VStack {
-            Spacer()
-            VStack (spacing: 24) {
-                InputView(text: $email,
-                          title: "Email Address",
-                          placeholder: "name@example.com")
-                .autocapitalization(.none)
+        NavigationStack {
+            VStack {
+                Image("munch_logo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 250)
                 
-                InputView(text: $fullname,
-                          title: "Full Name",
-                          placeholder: "Enter your name")
-                
-                
-                InputView(text: $password,
-                          title: "Password",
-                          placeholder: "Enter your password",
-                          isSecureField: true)
-                
-                InputView(text: $confirmPassword,
-                          title: "Confirm Password",
-                          placeholder: "Confirm your password",
-                          isSecureField: true)
-            }
-            .padding(.horizontal)
-            .padding(.top, 12)
-            
-            Button {
-                print("Sign user up... ")
-            } label: {
-                HStack {
-                    Text("SIGN UP")
-                        .fontWeight(.semibold)
-                    Image(systemName: "arrow.right")
+                // MARK: - Registration Fields
+                VStack(spacing: 24) {
+                    InputView(text: $email,
+                              title: "Email Address",
+                              placeholder: "name@example.com")
+                        .autocapitalization(.none)
+                    
+                    InputView(text: $fullname,
+                              title: "Full Name",
+                              placeholder: "Enter your name")
+                    
+                    InputView(text: $password,
+                              title: "Password",
+                              placeholder: "Enter your password",
+                              isSecureField: true)
+                    
+                    InputView(text: $confirmPassword,
+                              title: "Confirm Password",
+                              placeholder: "Confirm your password",
+                              isSecureField: true)
                 }
-                .foregroundColor(.white)
-                .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-            }
-            .background(Color(.systemPurple))
-            .cornerRadius(8)
-            .padding(.top, 24)
-            
-            Spacer()
-            
-            Button {
-                dismiss()
-            } label: {
-                HStack(spacing: 3) {
-                    Text("Already have an account?")
-                    Text("Sign in")
-                        .fontWeight(.bold)
+                .padding(.horizontal)
+                .padding(.top, 12)
+                
+                // MARK: - Sign Up Button
+                Button {
+                    // Ideally, validate input here (e.g., confirmPassword match)
+                    // Then set showOrderView to true:
+                    showOrderView = true
+                } label: {
+                    HStack {
+                        Text("SIGN UP")
+                            .fontWeight(.semibold)
+                        Image(systemName: "arrow.right")
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
-                .font(.system(size:14))
+                .background(Color(.systemPurple))
+                .cornerRadius(8)
+                .padding(.top, 24)
+                
+                Spacer()
+                
+                // MARK: - Already Have Account?
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 3) {
+                        Text("Already have an account?")
+                        Text("Sign in")
+                            .fontWeight(.bold)
+                    }
+                    .font(.system(size: 14))
+                }
+            }
+            .navigationDestination(isPresented: $showOrderView) {
+                OrderView()
             }
         }
     }
 }
 
-struct RegistrationView_Previews: PreviewProvider{
+struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {
         RegistrationView()
     }
 }
+

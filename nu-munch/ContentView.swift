@@ -30,9 +30,8 @@ struct ContentView: View {
                         OrderView()
                             .ignoresSafeArea()
                     } else {
-                        
+                        // You can add additional views here.
                     }
-                    // Rest of the content
                     Spacer()
                 }
                 VStack {
@@ -70,3 +69,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
