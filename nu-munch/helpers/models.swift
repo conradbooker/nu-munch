@@ -67,19 +67,18 @@ struct Eatery: Hashable, Codable, Identifiable {
     let id: Int
     let name: String
     let description: String
-    let photo: String
     let location: String
     let area: String
 }
 
 
 let defaultEateries: [String: Eatery] = [
-    "0": Eatery(id: 0, name: "Lisa", description: "hello", photo: "", location: "42.06024, -87.67573", area: "North Area"),
-    "1": Eatery(id: 1, name: "Tech Local", description: "hello", photo: "", location: "42.05806, -87.67584", area: "North Area"),
-    "2": Eatery(id: 2, name: "Buenos Dias", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
-    "3": Eatery(id: 3, name: "MOLD Pizza", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
-    "4": Eatery(id: 4, name: "123 Boirger", description: "hello", photo: "", location: "42.05335, -87.67259", area: "Norris"),
-    "5": Eatery(id: 5, name: "Fran", description: "hello", photo: "", location: "42.05183, 87.68116", area: "South Area"),
+    "0": Eatery(id: 0, name: "Lisa", description: "hello", location: "42.06024, -87.67573", area: "North Area"),
+    "1": Eatery(id: 1, name: "Tech Local", description: "hello", location: "42.05806, -87.67584", area: "North Area"),
+    "2": Eatery(id: 2, name: "Buenos Dias", description: "hello", location: "42.05335, -87.67259", area: "Norris"),
+    "3": Eatery(id: 3, name: "MOLD Pizza", description: "hello", location: "42.05335, -87.67259", area: "Norris"),
+    "4": Eatery(id: 4, name: "123 Boirger", description: "hello", location: "42.05335, -87.67259", area: "Norris"),
+    "5": Eatery(id: 5, name: "Fran", description: "hello", location: "42.05183, 87.68116", area: "South Area"),
 ]
 
 let defaultFoodItems: [String: FoodItem] = [
