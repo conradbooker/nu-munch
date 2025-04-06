@@ -8,8 +8,8 @@ struct RegistrationView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    // Tracks whether we’re pushing to ProfileView
-    @State private var showProfileView = false
+    // Tracks whether we’re pushing to OrderView
+    @State private var showOrderView = false
     
     var body: some View {
         NavigationStack {
@@ -24,7 +24,7 @@ struct RegistrationView: View {
                     InputView(text: $email,
                               title: "Email Address",
                               placeholder: "name@example.com")
-                    .autocapitalization(.none)
+                        .autocapitalization(.none)
                     
                     InputView(text: $fullname,
                               title: "Full Name",
@@ -46,8 +46,8 @@ struct RegistrationView: View {
                 // MARK: - Sign Up Button
                 Button {
                     // Ideally, validate input here (e.g., confirmPassword match)
-                    // Then set showProfileView to true:
-                    showProfileView = true
+                    // Then set showOrderView to true:
+                    showOrderView = true
                 } label: {
                     HStack {
                         Text("SIGN UP")
@@ -72,16 +72,19 @@ struct RegistrationView: View {
                         Text("Sign in")
                             .fontWeight(.bold)
                     }
-                    .font(.system(size:14))
+                    .font(.system(size: 14))
                 }
             }
-            .navigationDestination(isPresented: $showProfileView) {
-                // Pass user inputs to ProfileView:
-                ProfileView(email: email,
-                            username: fullname,
-                            password: password)
+            .navigationDestination(isPresented: $showOrderView) {
+                OrderView()
             }
         }
+    }
+}
+
+struct RegistrationView_Previews: PreviewProvider {
+    static var previews: some View {
+        RegistrationView()
     }
 }
 

@@ -1,0 +1,42 @@
+{
+  "originHash" : "1d9cc5c9962e74ded47ddf66ed6fac63e2a166b83b537db6efccbbf4279c1dc1",
+  "pins" : [
+    {
+      "identity" : "auth0.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/Auth0.swift.git",
+      "state" : {
+        "revision" : "9fee002fcd5fa572c0452eaeb9fb7a75be5fa4de",
+        "version" : "2.10.0"
+      }
+    },
+    {
+      "identity" : "jwtdecode.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/JWTDecode.swift.git",
+      "state" : {
+        "revision" : "1e153ef009969543191970c66b7c60163c0b4a65",
+        "version" : "3.2.0"
+      }
+    },
+    {
+      "identity" : "keychainaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "e0c7eebc5a4465a3c4680764f26b7a61f567cdaf"
+      }
+    },
+    {
+      "identity" : "simplekeychain",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/auth0/SimpleKeychain.git",
+      "state" : {
+        "revision" : "b694f155907b189bc82e93586695a26f558c742f",
+        "version" : "1.2.0"
+      }
+    }
+  ],
+  "version" : 3
+}

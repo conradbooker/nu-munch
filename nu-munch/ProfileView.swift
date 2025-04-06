@@ -104,7 +104,6 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            // Example preview usage:
             ProfileView(email: "test@example.com",
                         username: "Monica Lewis",
                         password: "MyPassword123")

@@ -13,7 +13,7 @@ struct User: Hashable, Codable, Identifiable {
     let email: String
     let profilePhoto: String
     
-    // order ids
+    // Order IDs
     let currentDelivery: Int
     let currentOrder: Int
     let pastDeliveries: [Int]
@@ -27,7 +27,7 @@ struct Order: Hashable, Codable, Identifiable {
     let locationEnd: String
     let price: Double
     
-    // deliverer and orderer ids
+    // Deliverer and orderer IDs
     let deliverer: Int
     let orderer: Int
 }
@@ -50,7 +50,6 @@ struct Eatery: Hashable, Codable, Identifiable {
     let area: String
 }
 
-
 let defaultEateries: [String: Eatery] = [
     "0": Eatery(id: 0, name: "Lisa", description: "hello", photo: "", location: "42.06024, -87.67573", area: "North Area"),
     "1": Eatery(id: 1, name: "Tech Local", description: "hello", photo: "", location: "42.05806, -87.67584", area: "North Area"),
@@ -67,3 +66,4 @@ let defaultFoodItems: [String: FoodItem] = [
 ]
 
 let areas: [String] = ["North Area", "Norris", "South Area"]
+

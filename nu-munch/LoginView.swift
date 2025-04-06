@@ -13,29 +13,40 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack{
-                
+            VStack {
                 Image("munch_logo")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 100, height: 250)
                 
-                //form fields
+                // Form fields
                 VStack(spacing: 24) {
                     InputView(text: $email,
                               title: "Email Address",
                               placeholder: "name@example.com")
-                    .autocapitalization(.none)
+                        .autocapitalization(.none)
                     
-                    InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
+                    InputView(text: $password,
+                              title: "Password",
+                              placeholder: "Enter your password",
+                              isSecureField: true)
                 }
                 .padding(.horizontal)
                 .padding(.top, 12)
                 
-                //sign in button
-                
+                // Sign in button using AuthManager for Auth0 login
                 Button {
-                    print("Log user in... ")
+                    AuthManager.shared.login { result in
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let credentials):
+                                print("Logged in successfully with access token: \(credentials.accessToken)")
+                                // Optionally, update app state or navigate to the main content here.
+                            case .failure(let error):
+                                print("Failed to log in: \(error.localizedDescription)")
+                            }
+                        }
+                    }
                 } label: {
                     HStack {
                         Text("SIGN IN")
@@ -51,8 +62,7 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                //sign up button
-                
+                // Sign up button
                 NavigationLink {
                     RegistrationView()
                         .navigationBarBackButtonHidden(true)
@@ -62,9 +72,8 @@ struct LoginView: View {
                         Text("Sign up")
                             .fontWeight(.bold)
                     }
-                    .font(.system(size:14))
+                    .font(.system(size: 14))
                 }
-                
             }
         }
     }
@@ -75,3 +84,4 @@ struct LoginView_Previews: PreviewProvider {
         LoginView()
     }
 }
+
