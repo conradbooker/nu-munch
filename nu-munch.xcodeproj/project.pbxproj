@@ -10,9 +10,22 @@
 		79D796F32DA1D93900C6F4C2 /* nu-munch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nu-munch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		79C6C6562DA227AC00CCB5B1 /* Exceptions for "nu-munch" folder in "nu-munch" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 79D796F22DA1D93900C6F4C2 /* nu-munch */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		79D796F52DA1D93900C6F4C2 /* nu-munch */ = {
+		79C6C6422DA2241000CCB5B1 /* nu-munch */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				79C6C6562DA227AC00CCB5B1 /* Exceptions for "nu-munch" folder in "nu-munch" target */,
+			);
 			path = "nu-munch";
 			sourceTree = "<group>";
 		};
@@ -32,8 +45,8 @@
 		79D796EA2DA1D93900C6F4C2 = {
 			isa = PBXGroup;
 			children = (
-				79D796F52DA1D93900C6F4C2 /* nu-munch */,
 				79D796F42DA1D93900C6F4C2 /* Products */,
+				79C6C6422DA2241000CCB5B1 /* nu-munch */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,7 +74,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				79D796F52DA1D93900C6F4C2 /* nu-munch */,
+				79C6C6422DA2241000CCB5B1 /* nu-munch */,
 			);
 			name = "nu-munch";
 			packageProductDependencies = (
@@ -250,6 +263,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"nu-munch/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "nu-munch/Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your app needs location";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -287,6 +302,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"nu-munch/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "nu-munch/Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your app needs location";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
