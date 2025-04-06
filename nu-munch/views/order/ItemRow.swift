@@ -12,12 +12,12 @@ struct ItemRow: View {
     @State private var showItem: Bool = false
     @State private var userInput: String = ""
     let prompt: String = "Type here..."
-
+    
     var foodItem: FoodItem?
     
     @State private var selected: String = ""
-    
-    private let selectionOptions = [ //This is the List of values we'll use
+
+    private let selectionOptions = [
         "my first option",
         "my second option",
         "my third option"
@@ -32,7 +32,7 @@ struct ItemRow: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(maxHeight: 120)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.gray.opacity(0.2))
                     .shadow(radius: 4)
                 HStack {
                     VStack(alignment: .leading) {
@@ -42,7 +42,6 @@ struct ItemRow: View {
                         Text(foodItem?.description ?? "")
                             .foregroundColor(.black)
                             .multilineTextAlignment(.leading)
-                        
                     }
                     .padding(.leading, 12)
                     Spacer()
@@ -55,92 +54,78 @@ struct ItemRow: View {
         .padding(.horizontal, 12)
         .padding(.bottom, 10)
         .sheet(isPresented: $showItem) {
-            print("Sheet dismissed!")
-        } content: {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text(foodItem?.name ?? "Loading...")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.vertical, 5)
-                        .padding(.top, 10)
-                    Spacer()
-                    Button {
-                        showItem = false
-                    } label: {
-                        Text("Cancel")
+            NavigationStack {
+                Form {
+                    Section(header: Text(foodItem?.name ?? "Loading...").font(.headline)) {
+                        Text(foodItem?.description ?? "")
                     }
-                }
-                Text(foodItem?.description ?? "")
-                    .font(.title3)
-                    .padding(.bottom, 5)
-                Spacer().frame(height: 30)
-                Text("Options:")
-                Picker("Picker Name", selection: $selected) {
-                    ForEach(foodItem?.options ?? [], id: \.self) {
-                        Text($0)
+
+                    Section(header: Text("Options")) {
+                        Picker("Select an option", selection: $selected) {
+                            ForEach(foodItem?.options ?? [], id: \.self) { option in
+                                Text(option)
+                            }
+                        }
                     }
-                }
-                .pickerStyle(.segmented)
-                Spacer().frame(height: 35)
-                Text("Any additional requests/modifications?")
-                TextEditor(text: $userInput)
-                    .frame(maxHeight: 120)
-                    .padding(8)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray, lineWidth: 1)
-                        if userInput.isEmpty {
-                            VStack {
-                                HStack {
-                                    Text(prompt)
-                                        .foregroundStyle(Color.secondary)
-                                        .padding(12)
-                                        .padding(.top, 4)
-                                    Spacer()
+    
+                    Section(header: Text("Additional requests/modifications")) {
+                        TextEditor(text: $userInput)
+                            .frame(minHeight: 120)
+                            .overlay {
+                                if userInput.isEmpty {
+                                    VStack {
+                                        HStack {
+                                            Text(prompt)
+                                                .foregroundStyle(Color.secondary)
+                                                .padding(12)
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                    }
+                                    .allowsHitTesting(false)
                                 }
+                            }
+                    }
+
+                    Section {
+                        Button(action: {
+                            addToCart(foodItem: foodItem)
+                            showItem = false
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("Add to basket!")
+                                    .foregroundColor(.white)
+                                    .font(.title3)
                                 Spacer()
                             }
-                            .allowsHitTesting(false)
                         }
+                        .listRowBackground(Color(.systemPurple))
                     }
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button {
-                        addToCart(foodItem: foodItem)
-                        showItem = false
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12)
-                                .foregroundColor(.blue)
-                            Text("Add to basket!")
-                                .foregroundStyle(.white)
-                                .font(.title3)
-                        }
-                        .frame(width: 250, height: 50)
-                    }
-                    Spacer()
                 }
-                .padding(.bottom, 50)
-                
+                .navigationTitle("Food Item")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Cancel") {
+                            showItem = false
+                        }
+                    }
+                }
             }
-            .padding(.horizontal, 12)
         }
-
     }
-
+    
     private func addToCart(foodItem: FoodItem?) {
         guard let foodItem = foodItem else { return }
-
+        
         var cartItems = getCartItems()
         cartItems.append(foodItem)
-
+        
         if let data = try? JSONEncoder().encode(cartItems) {
             UserDefaults.standard.set(data, forKey: "cartItems")
         }
     }
-
+    
     private func getCartItems() -> [FoodItem] {
         if let data = UserDefaults.standard.data(forKey: "cartItems"),
            let cartItems = try? JSONDecoder().decode([FoodItem].self, from: data) {
@@ -153,3 +138,4 @@ struct ItemRow: View {
 #Preview {
     ItemRow(foodItem: defaultFoodItems["0"])
 }
+

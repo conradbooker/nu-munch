@@ -89,7 +89,7 @@ struct CartView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .frame(height: 80)
-                            .foregroundColor(.blue)
+                            .foregroundColor((.gray.opacity(0.2)))
                             .shadow(radius: 4)
                         HStack {
                             VStack(alignment: .leading) {

@@ -34,6 +34,7 @@ struct OrderView: View {
                         }
                     }
                 }
+                
                 .onAppear {
                     ApiCall().getAllEateries { result in
                         switch result {

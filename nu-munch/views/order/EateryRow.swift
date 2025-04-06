@@ -26,17 +26,26 @@ struct EateryRow: View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .frame(height: 80)
-                .foregroundColor(.blue)
+                .foregroundColor(.gray.opacity(0.2))
                 .shadow(radius: 4)
+            
             HStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .frame(width: 56, height: 56)
-                    .foregroundColor(.green)
-                    .padding(.leading, 12)
+                // Image loaded directly from assets using the eatery's id.
+                if let eatery = eatery {
+                    Image(eatery.id)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 56, height: 56)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.leading, 12)
+                }
+                
+                // Eatery details
                 VStack(alignment: .leading) {
                     Text(eatery?.name ?? "")
                         .font(.title2)
                         .foregroundColor(.black)
+                    
                     if let userLocation = locationManager.lastKnownLocation, let eatery = eatery {
                         let distance = getDistance(from: userLocation, to: eatery.location)
                         Text("\(String(format: "%.2f", distance / 1000)) km away · Closes at 6pm")
@@ -62,3 +71,4 @@ struct EateryRow: View {
     EateryRow(eatery: defaultEateries["0"])
         .environmentObject(locationManager)
 }
+
