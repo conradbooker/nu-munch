@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct EateryView: View {
-    
     var eatery: Eatery?
+    @State private var foodItems: [String: FoodItem] = [:]
     
     var body: some View {
         NavigationStack {
@@ -20,8 +20,24 @@ struct EateryView: View {
                         .fontWeight(.bold)
                         .padding(.leading, 12)
                         .padding(.bottom, 5)
-                    ForEach(defaultFoodItems.keys.sorted(), id: \.self) { foodItem_key in
-                        ItemRow(foodItem: defaultFoodItems[foodItem_key])
+                    ForEach(foodItems.keys.sorted(), id: \.self) { foodItem_key in
+                        ItemRow(foodItem: foodItems[foodItem_key])
+                    }
+                }
+                .onAppear {
+                    if let eateryId = eatery?.id {
+                        ApiCall().getEateryItems(eateryId: eateryId) { result in
+                            switch result {
+                            case .success(let fetchedFoodItems):
+                                var foodItemDict: [String: FoodItem] = [:]
+                                fetchedFoodItems.forEach { foodItem in
+                                    foodItemDict[foodItem.id] = foodItem
+                                }
+                                self.foodItems = foodItemDict
+                            case .failure(let error):
+                                print("Failed to fetch food items: \(error)")
+                            }
+                        }
                     }
                 }
             }

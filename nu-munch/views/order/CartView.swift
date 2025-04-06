@@ -7,11 +7,15 @@ struct CartView: View {
     @State private var showAlert: Bool = false
     @State private var itemToDelete: FoodItem?
     
+    @State var eateries: [String: Eatery]?
+    
     @EnvironmentObject private var locationManager: LocationManager
     
+    @State private var showUserSuccess = false
+    
     func getEateryById(_ id: String) -> String {
-        if defaultEateries.keys.contains(String(id)) {
-            return defaultEateries[String(id)]?.name ?? "Unknown Option!"
+        if ((eateries?.keys.contains(String(id))) != nil) {
+            return eateries?[String(id)]?.name ?? "Unknown Option!"
         }
         return "Unknown Option!"
     }
@@ -63,6 +67,23 @@ struct CartView: View {
                      }
                      .padding(.trailing, 12)
                      .padding(.top, 15)
+                     .onAppear {
+                         ApiCall().getAllEateries { result in
+                             switch result {
+                             case .success(let fetchedEateries):
+                                 var eateryDict: [String: Eatery] = [:]
+                                 fetchedEateries.forEach { eatery in
+                                     eateryDict[eatery.id] = eatery
+                                 }
+                                 self.eateries = eateryDict
+                             case .failure(let error):
+                                 print("Failed to fetch eateries: \(error)")
+                             }
+                         }
+                     }
+                 }
+                 if showUserSuccess {
+                     PaymentSuccessView()
                  }
                 ForEach(cartItems, id: \.self) { item in
                     ZStack {
@@ -121,12 +142,46 @@ struct CartView: View {
                 Button(action: {
                     // Simulate a fake charge
                     print("Processing Apple Pay charge...")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        print("Charge successful!")
+                    if !cartItems.isEmpty {
+                        
+                        // SUBMIT ORDER TO API HERE
+                        let expirationTime = Int(Date().addingTimeInterval(45 * 60).timeIntervalSince1970)
+                        let newOrder = Order(
+                            id: UUID().uuidString,
+                            status: "In Progress",
+                            foodItem_id: cartItems.first?.id ?? "",
+                            locationStart: eateries?[cartItems.first?.eatery_id ?? "0"]?.location ?? "",
+                            locationEnd: "\(locationManager.lastKnownLocation?.latitude ?? 0), \(locationManager.lastKnownLocation?.longitude ?? 0)",
+                            locationStart_description: eateries?[cartItems.first?.eatery_id ?? "0"]?.name ?? "",
+                            locationEnd_description: "Elder",
+                            price: calculateTotalPrice(),
+                            deliverer: "",
+                            orderer: "0",
+                            expiration: expirationTime
+                        )
+                        ApiCall().createOrder(order: newOrder) { result in
+                            switch result {
+                            case .success(let order):
+                                print("Order created: \(order)")
+                                // Clear the cart
+                                cartItems.removeAll()
+                                if let data = try? JSONEncoder().encode(cartItems) {
+                                    UserDefaults.standard.set(data, forKey: "cartItems")
+                                }
+                            case .failure(let error):
+                                print("Failed to create order: \(error)")
+                            }
+                        }
+                        // clear cart
+                        cartItems.removeAll()
+                        if let data = try? JSONEncoder().encode(cartItems) {
+                            UserDefaults.standard.set(data, forKey: "cartItems")
+                        }
+                        showUserSuccess = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            showCart = false
+                        }
                     }
-                    
-                    // SUBMIT ORDER TO API HERE
-                    // CLEAR CART
                 }) {
                     HStack {
                         Image(systemName: "applelogo")
@@ -171,7 +226,7 @@ struct CartView: View {
     }
     
     private func getEateryLocationById(_ id: String) -> String {
-        return defaultEateries[String(id)]?.location ?? "0.0, 0.0"
+        return eateries?[String(id)]?.location ?? "0.0, 0.0"
     }
 
     private func loadCartItems() {
@@ -190,10 +245,49 @@ struct CartView: View {
     }
 }
 
+extension ApiCall {
+    func createOrder(order: Order, completion: @escaping (Result<Order, Error>) -> ()) {
+        guard let url = URL(string: "\(baseUrl)/orders/\(order.id)") else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            let jsonData = try JSONEncoder().encode(order)
+            request.httpBody = jsonData
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let data = data else { return }
+            
+            do {
+                let feedback = try JSONDecoder().decode(Response<Order>.self, from: data)
+                if feedback.status == "success" {
+                    completion(.success(feedback.feedback))
+                } else {
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: feedback.feedback])
+                    completion(.failure(error))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+}
+
 #Preview {
     @Previewable @StateObject var locationManager = LocationManager()
     @Previewable @State var showCart = true
 
-    CartView(showCart: $showCart)
+    CartView(showCart: $showCart, eateries: defaultEateries)
         .environmentObject(locationManager)
 }

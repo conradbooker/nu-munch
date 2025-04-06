@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct OrderView: View {
+    @State private var eateries: [String: Eatery] = [:]
+    
+    @EnvironmentObject private var locationManager: LocationManager
     
     var body: some View {
         NavigationStack {
@@ -19,24 +22,41 @@ struct OrderView: View {
                             .fontWeight(.bold)
                             .padding(.leading, 12)
                             .padding(.bottom, 5)
-                        ForEach(defaultEateries.keys.sorted(), id: \.self) { eatery_key in
-//                            Text(defaultEateries[eatery_key]?.area ?? "")
-                            if defaultEateries[eatery_key]?.area ?? "" == area {
+                        ForEach(eateries.keys.sorted(), id: \.self) { eatery_key in
+                            if eateries[eatery_key]?.area ?? "" == area {
                                 NavigationLink {
-                                    EateryView(eatery: defaultEateries[eatery_key])
+                                    EateryView(eatery: eateries[eatery_key])
                                 } label: {
-                                    EateryRow(eatery: defaultEateries[eatery_key])
+                                    EateryRow(eatery: eateries[eatery_key])
+                                        .environmentObject(locationManager)
                                 }
                             }
                         }
-                        
+                    }
+                }
+                .onAppear {
+                    ApiCall().getAllEateries { result in
+                        switch result {
+                        case .success(let fetchedEateries):
+                            var eateryDict: [String: Eatery] = [:]
+                            fetchedEateries.forEach { eatery in
+                                eateryDict[eatery.id] = eatery
+                            }
+                            self.eateries = eateryDict
+                        case .failure(let error):
+                            print("Failed to fetch eateries: \(error)")
+                        }
                     }
                 }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
+    @Previewable @StateObject var locationManager = LocationManager()
+
     OrderView()
+        .environmentObject(locationManager)
 }
