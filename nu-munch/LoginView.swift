@@ -15,7 +15,10 @@ struct LoginView: View {
         NavigationStack {
             VStack{
                 
-                Spacer()
+                Image("munch_logo")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 250)
                 
                 //form fields
                 VStack(spacing: 24) {
