@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-// API CALL ON APPEAR GET LENGTH OF ORDERS
-
 struct HeaderView: View {
     
     @Binding var view: String
+    @State private var showProfile: Bool = false
+    @State private var orderLength: Int = 0
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -57,7 +57,7 @@ struct HeaderView: View {
                             .fill(Color.red)
                             .frame(width: 16, height: 16)
                             .overlay(
-                                Text("3")
+                                Text("\(orderLength)")
                                     .foregroundColor(.white)
                                     .font(.caption2)
                             )
@@ -69,18 +69,34 @@ struct HeaderView: View {
                 Spacer()
 
                 // Right Side (Profile icon)
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 36, height: 36)
-                    .overlay(
-                        Image(systemName: "person.fill")
-                            .foregroundColor(.gray)
-                    )
+                Button {
+                    showProfile = true
+                } label: {
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 36, height: 36)
+                        .overlay(
+                            Image(systemName: "person.fill")
+                                .foregroundColor(.gray)
+                        )
+                }
             }
 
         }
         .padding()
-
+        .sheet(isPresented: $showProfile) {
+            ProfileView(showProfile: $showProfile)
+        }
+        .onAppear {
+            ApiCall().getOrderLength { result in
+                switch result {
+                case .success(let length):
+                    self.orderLength = length
+                case .failure(let error):
+                    print("Failed to fetch order length: \(error)")
+                }
+            }
+        }
     }
 }
 

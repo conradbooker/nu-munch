@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		79C1D5A92DA2F23D00820172 /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 79C1D5A82DA2F23D00820172 /* Auth0 */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		79D796F32DA1D93900C6F4C2 /* nu-munch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "nu-munch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C1D5A92DA2F23D00820172 /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = "nu-munch";
 			packageProductDependencies = (
+				79C1D5A82DA2F23D00820172 /* Auth0 */,
 			);
 			productName = "nu-munch";
 			productReference = 79D796F32DA1D93900C6F4C2 /* nu-munch.app */;
@@ -108,6 +114,7 @@
 			mainGroup = 79D796EA2DA1D93900C6F4C2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				79C1D5A72DA2F23D00820172 /* XCRemoteSwiftPackageReference "Auth0" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 79D796F42DA1D93900C6F4C2 /* Products */;
@@ -354,6 +361,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		79C1D5A72DA2F23D00820172 /* XCRemoteSwiftPackageReference "Auth0" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/Auth0.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		79C1D5A82DA2F23D00820172 /* Auth0 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79C1D5A72DA2F23D00820172 /* XCRemoteSwiftPackageReference "Auth0" */;
+			productName = Auth0;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 79D796EB2DA1D93900C6F4C2 /* Project object */;
 }

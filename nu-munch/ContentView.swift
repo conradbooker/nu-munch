@@ -14,29 +14,42 @@ struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
 
     @AppStorage("email") var email = ""
-    @AppStorage("user_id") var user_id = ""
-    
-    @State private var showProfile = false
+    @AppStorage("user_id") var user_id = "0"
+        
+    @State private var activeOrder: Order?
 
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack(alignment: .leading) {
-                    // active delivery / order here
                     
                     // Custom Header
                     HeaderView(view: $view)
                         .onAppear {
                             locationManager.checkLocationAuthorization()
+                            user_id = "0"
+                            
                         }
                         .padding(.top, 60)
+                    // active delivery / order here
+                    
+                    Text("Active Order/Delivery")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.leading, 12)
+                        .padding(.bottom, 5)
+
+                    ActiveItem()
+                        .environmentObject(locationManager)
+                    
 
                     if view == "order" {
                         OrderView()
                             .ignoresSafeArea()
                             .environmentObject(locationManager)
                     } else {
-                        // You can add additional views here.
+                        DeliverView()
+                            .environmentObject(locationManager)
                     }
                     Spacer()
                 }
@@ -68,9 +81,6 @@ struct ContentView: View {
         .sheet(isPresented: $showCart) {
             CartView(showCart: $showCart)
                 .environmentObject(locationManager)
-        }
-        .sheet(isPresented: $showProfile) {
-            ProfileView(showProfile: $showProfile)
         }
     }
 }
