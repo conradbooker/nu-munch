@@ -10,7 +10,9 @@ import SwiftData
 
 struct ContentView: View {
     @State private var view: String = "order"
-    @State private var showCart: Bool = true
+    @State private var showCart: Bool = false
+    @StateObject private var locationManager = LocationManager()
+
     
     var body: some View {
         NavigationStack {
@@ -18,6 +20,10 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     // Custom Header
                     HeaderView(view: $view)
+                        .onAppear {
+                            locationManager.checkLocationAuthorization()
+                        }
+
                     if view == "order" {
                         OrderView()
                             .ignoresSafeArea()
@@ -39,8 +45,12 @@ struct ContentView: View {
                                     .foregroundStyle(.purple)
                                     .frame(width: 80, height: 80)
                                     .shadow(radius: 4)
+                                Image(systemName: "basket")
+                                    .font(.title)
+                                    .foregroundStyle(.white)
                             }
                             .padding(.trailing, 30)
+                            .padding(.bottom, 30)
                         }
                     }
                 }
@@ -49,7 +59,8 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
         .sheet(isPresented: $showCart) {
-            CartView()
+            CartView(showCart: $showCart)
+                .environmentObject(locationManager)
         }
     }
 }
