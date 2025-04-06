@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct EateryView: View {
+    
+    var eatery: Eatery?
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(eatery?.name ?? "Error")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.leading, 12)
+                        .padding(.bottom, 5)
+                    ForEach(defaultFoodItems.keys.sorted(), id: \.self) { foodItem_key in
+                        ItemRow(foodItem: defaultFoodItems[foodItem_key])
+                    }
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    EateryView()
+    EateryView(eatery: defaultEateries["0"])
 }

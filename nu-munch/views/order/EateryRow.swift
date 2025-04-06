@@ -8,11 +8,39 @@
 import SwiftUI
 
 struct EateryRow: View {
+    
+    var eatery: Eatery?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .frame(height: 80)
+                .foregroundColor(.blue)
+                .shadow(radius: 4)
+            HStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .frame(width: 56, height: 56)
+                    .foregroundColor(.green)
+                    .padding(.leading, 12)
+                VStack(alignment: .leading) {
+                    Text(eatery?.name ?? "")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                    Text("900m away · Closes at 6pm")
+                        .foregroundColor(.black)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .padding(.trailing, 12)
+                    .foregroundColor(.black)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.bottom, 10)
+
     }
 }
 
 #Preview {
-    EateryRow()
+    EateryRow(eatery: defaultEateries["0"])
 }

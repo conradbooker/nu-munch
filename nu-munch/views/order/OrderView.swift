@@ -19,38 +19,13 @@ struct OrderView: View {
                             .fontWeight(.bold)
                             .padding(.leading, 12)
                             .padding(.bottom, 5)
-                        ForEach(defaultEateries, id: \.self) { eatery in
-                            if eatery.area == area {
+                        ForEach(defaultEateries.keys.sorted(), id: \.self) { eatery_key in
+//                            Text(defaultEateries[eatery_key]?.area ?? "")
+                            if defaultEateries[eatery_key]?.area ?? "" == area {
                                 NavigationLink {
-                                    Text("hi")
+                                    EateryView(eatery: defaultEateries[eatery_key])
                                 } label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .frame(height: 80)
-                                            .foregroundColor(.blue)
-                                            .shadow(radius: 4)
-                                        HStack {
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .frame(width: 56, height: 56)
-                                                .foregroundColor(.green)
-                                                .padding(.leading, 12)
-                                            VStack(alignment: .leading) {
-                                                Text(eatery.name)
-                                                    .font(.title3)
-                                                    .foregroundColor(.black)
-                                                Text("900m away · Closes at 6pm")
-                                                    .foregroundColor(.black)
-                                                
-                                            }
-                                            .padding(.leading, 12)
-                                            Spacer()
-                                            Image(systemName: "chevron.right")
-                                                .padding(.trailing, 12)
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    .padding(.horizontal, 12)
-                                    .padding(.bottom, 10)
+                                    EateryRow(eatery: defaultEateries[eatery_key])
                                 }
                             }
                         }

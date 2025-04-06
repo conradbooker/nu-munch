@@ -11,8 +11,6 @@ struct HeaderView: View {
     
     @Binding var view: String
     
-    
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -23,12 +21,12 @@ struct HeaderView: View {
                     } label: {
                         if view == "order" {
                             Text("Order")
-                                .font(.title)
+                                .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.black)
                         } else {
                             Text("Order")
-                                .font(.title)
+                                .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.gray)
                         }
@@ -41,12 +39,12 @@ struct HeaderView: View {
                         } label: {
                             if view == "deliver" {
                                 Text("Deliver")
-                                    .font(.title)
+                                    .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.black)
                             } else {
                                 Text("Deliver")
-                                    .font(.title)
+                                    .font(.largeTitle)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.gray)
                             }
@@ -63,6 +61,7 @@ struct HeaderView: View {
                             )
                             .offset(x: 16, y: -5)
                     }
+                    .padding(.leading, 5)
                 }
 
                 Spacer()
